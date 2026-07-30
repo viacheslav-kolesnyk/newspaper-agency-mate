@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Newspapers</h1>
+  <a href="{% url 'newspaper:newspaper-create' %}" class="btn btn-primary mb-3">Create Newspaper</a>
+
+  <div class="list-group mb-3">
+    {% for newspaper in newspaper_list %}
+      <div class="list-group-item list-group-item-action">
+        <div class="d-flex w-100 justify-content-between">
+          <h5 class="mb-1">
+            <a href="{% url 'newspaper:newspaper-detail' pk=newspaper.id %}">{{ newspaper.title }}</a>
+          </h5>
+          <small class="text-muted">{{ newspaper.published_date }}</small>
+        </div>
+        <p class="mb-1 text-muted">Topic: {{ newspaper.topic.name }}</p>
+      </div>
+    {% empty %}
+      <p class="list-group-item">No newspapers available.</p>
+    {% endfor %}
+  </div>
+{% endblock %}
