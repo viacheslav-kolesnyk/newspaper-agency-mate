@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Profile: {{ editor.username }}</h1>
+  <div class="card mb-4">
+    <div class="card-body">
+      <p class="card-text"><strong>Full Name:</strong> {{ editor.first_name }} {{ editor.last_name }}</p>
+      <p class="card-text"><strong>Email:</strong> {{ editor.email }}</p>
+    </div>
+  </div>
+
+  <h3>Assigned Newspapers</h3>
+  <div class="list-group">
+    {% for newspaper in editor.newspapers.all %}
+      <a href="{% url 'newspaper:newspaper-detail' pk=newspaper.id %}" class="list-group-item list-group-item-action">
+        <div class="d-flex w-100 justify-content-between">
+          <h5 class="mb-1">{{ newspaper.title }}</h5>
+          <small class="text-muted">{{ newspaper.published_date }}</small>
+        </div>
+        <small class="text-muted">Topic: {{ newspaper.topic.name }}</small>
+      </a>
+    {% empty %}
+      <p class="text-muted">This editor has not been assigned to any newspapers yet.</p>
+    {% endfor %}
+  </div>
+
+  <div class="mt-4">
+    <a href="{% url 'newspaper:editor-list' %}" class="btn btn-secondary">Back to Editors</a>
+  </div>
+{% endblock %}
