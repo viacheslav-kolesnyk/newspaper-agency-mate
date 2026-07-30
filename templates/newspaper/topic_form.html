@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>{% if object %}Update{% else %}Create{% endif %} Topic</h1>
+
+  <form action="" method="post" novalidate>
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-success">Save</button>
+    <a href="{% url 'newspaper:topic-list' %}" class="btn btn-secondary">Cancel</a>
+  </form>
+{% endblock %}
