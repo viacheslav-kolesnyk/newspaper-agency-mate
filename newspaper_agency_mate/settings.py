@@ -49,7 +49,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'newspaper_agency_mate.urls'
+ROOT_URLCONF = 'newspaper_agency.urls'
 
 TEMPLATES = [
     {
