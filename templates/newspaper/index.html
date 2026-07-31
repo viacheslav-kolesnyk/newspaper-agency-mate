@@ -1,0 +1,52 @@
+<!-- templates/newspaper/index.html -->
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="p-5 mb-4 bg-white rounded-3 border">
+    <div class="container-fluid py-3">
+      <h1 class="display-5 fw-bold">Newspaper Agency Management</h1>
+      <p class="col-md-8 fs-4 text-muted">Welcome to your administration panel. Monitor real-time counts across publication metrics, handle staff access profiles, and manage active topics below.</p>
+    </div>
+  </div>
+
+  <div class="row text-center mt-4">
+    <!-- Newspapers Counter Card -->
+    <div class="col-md-4 mb-4">
+      <div class="card border-primary h-100 shadow-sm">
+        <div class="card-body d-flex flex-column justify-content-between">
+          <div>
+            <h5 class="card-title text-primary uppercase fw-bold mb-3">Newspapers</h5>
+            <p class="display-3 fw-semibold my-2">{{ num_newspapers }}</p>
+          </div>
+          <a href="{% url 'newspaper:newspaper-list' %}" class="btn btn-outline-primary mt-3 w-100">View Publications</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Topics Counter Card -->
+    <div class="col-md-4 mb-4">
+      <div class="card border-success h-100 shadow-sm">
+        <div class="card-body d-flex flex-column justify-content-between">
+          <div>
+            <h5 class="card-title text-success uppercase fw-bold mb-3">Topics</h5>
+            <p class="display-3 fw-semibold my-2">{{ num_topics }}</p>
+          </div>
+          <a href="{% url 'newspaper:topic-list' %}" class="btn btn-outline-success mt-3 w-100">View Topics</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Editors Counter Card -->
+    <div class="col-md-4 mb-4">
+      <div class="card border-info h-100 shadow-sm">
+        <div class="card-body d-flex flex-column justify-content-between">
+          <div>
+            <h5 class="card-title text-info uppercase fw-bold mb-3">Active Editors</h5>
+            <p class="display-3 fw-semibold my-2">{{ num_editors }}</p>
+          </div>
+          <a href="{% url 'newspaper:editor-list' %}" class="btn btn-outline-info mt-3 w-100">View Staff Profiles</a>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
