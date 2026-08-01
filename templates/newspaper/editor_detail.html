@@ -17,7 +17,8 @@
           <h5 class="mb-1">{{ newspaper.title }}</h5>
           <small class="text-muted">{{ newspaper.published_date }}</small>
         </div>
-        <small class="text-muted">Topic: {{ newspaper.topic.name }}</small>
+        <small class="text-muted">Topics: {% for topic in newspaper.topics.all %}{{ topic.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</small>
+
       </a>
     {% empty %}
       <p class="text-muted">This editor has not been assigned to any newspapers yet.</p>

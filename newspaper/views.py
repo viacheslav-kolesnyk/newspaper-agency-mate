@@ -3,7 +3,7 @@ from django.urls import reverse_lazy
 from django.views import generic
 
 from newspaper.models import Newspaper, Topic, Editor
-from newspaper.forms import NewspaperForm, EditorCreationForm, EditorUpdateForm
+from newspaper.forms import TopicForm, NewspaperForm, EditorForm
 
 
 class IndexView(generic.TemplateView):
@@ -28,14 +28,14 @@ class TopicListView(LoginRequiredMixin, generic.ListView):
 
 class TopicCreateView(LoginRequiredMixin, generic.CreateView):
     model = Topic
-    fields = "__all__"
+    form_class = TopicForm
     template_name = "newspaper/topic_form.html"
     success_url = reverse_lazy("newspaper:topic-list")
 
 
 class TopicUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Topic
-    fields = "__all__"
+    form_class = TopicForm
     template_name = "newspaper/topic_form.html"
     success_url = reverse_lazy("newspaper:topic-list")
 
@@ -53,8 +53,7 @@ class NewspaperListView(LoginRequiredMixin, generic.ListView):
     template_name = "newspaper/newspaper_list.html"
     context_object_name = "newspaper_list"
     paginate_by = 5
-    queryset = Newspaper.objects.select_related("topic")
-
+    queryset = Newspaper.objects.select_related("editor").prefetch_related("topics")
 
 class NewspaperDetailView(LoginRequiredMixin, generic.DetailView):
     model = Newspaper
@@ -93,4 +92,22 @@ class EditorListView(LoginRequiredMixin, generic.ListView):
 class EditorDetailView(LoginRequiredMixin, generic.DetailView):
     model = Editor
     template_name = "newspaper/editor_detail.html"
-    queryset = Editor.objects.prefetch_related("newspapers__topic")
+    queryset = Editor.objects.prefetch_related("newspapers__topics")
+
+class EditorCreateView(LoginRequiredMixin, generic.CreateView):
+    model = Editor
+    form_class = EditorForm
+    template_name = "newspaper/editor_form.html"
+    success_url = reverse_lazy("newspaper:editor-list")
+
+class EditorUpdateView(LoginRequiredMixin, generic.UpdateView):
+    model = Editor
+    form_class = EditorForm
+    template_name = "newspaper/editor_form.html"
+    success_url = reverse_lazy("newspaper:editor-list")
+
+
+class EditorDeleteView(LoginRequiredMixin, generic.DeleteView):
+    model = Editor
+    template_name = "newspaper/editor_confirm_delete.html"
+    success_url = reverse_lazy("newspaper:editor-list")

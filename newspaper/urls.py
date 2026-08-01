@@ -14,6 +14,9 @@ from newspaper.views import (
     NewspaperDeleteView,
     EditorListView,
     EditorDetailView,
+    EditorCreateView,
+    EditorUpdateView,
+    EditorDeleteView,
 )
 
 urlpatterns = [
@@ -35,6 +38,9 @@ urlpatterns = [
     # Editor patterns
     path("editors/", EditorListView.as_view(), name="editor-list"),
     path("editors/<int:pk>/", EditorDetailView.as_view(), name="editor-detail"),
+    path("editors/create/", EditorCreateView.as_view(), name="editor-create"),
+    path("editors/<int:pk>/update/", EditorUpdateView.as_view(), name="editor-update"),
+    path("editors/<int:pk>/delete/", EditorDeleteView.as_view(), name="editor-delete"),
 ]
 
 app_name = "newspaper"
