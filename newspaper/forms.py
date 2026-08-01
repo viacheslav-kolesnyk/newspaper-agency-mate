@@ -1,7 +1,5 @@
 from django import forms
-from newspaper.models import Topic
-from django.contrib.auth import get_user_model
-from newspaper.models import Newspaper
+from newspaper.models import Topic, Newspaper
 
 
 class TopicForm(forms.ModelForm):
@@ -13,18 +11,13 @@ class TopicForm(forms.ModelForm):
         }
 
 class NewspaperForm(forms.ModelForm):
-    editors = forms.ModelMultipleChoiceField(
-        queryset=get_user_model().objects.all(),
-        widget=forms.CheckboxSelectMultiple,
-        required=False
-    )
-
     class Meta:
         model = Newspaper
-        fields = ["title", "content", "published_date", "topic", "editors"]
+        fields = ["title", "content", "published_date", "topics", "editor"]
         widgets = {
             "title": forms.TextInput(attrs={"class": "form-control"}),
             "content": forms.Textarea(attrs={"class": "form-control", "rows": 5}),
             "published_date": forms.DateInput(attrs={"class": "form-control", "type": "date"}),
-            "topic": forms.Select(attrs={"class": "form-select"}),
+            "topics": forms.CheckboxSelectMultiple,
+            "editor": forms.Select(attrs={"class": "form-select"}),
         }
