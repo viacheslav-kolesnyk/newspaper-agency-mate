@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+
+{% block title %}All Articles - Newspaper Agency{% endblock %}
+
+{% block content %}
+<!-- Header and Search Filter Block -->
+<div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4 pb-3 border-bottom">
+    <div>
+        <h2 class="mb-0 fw-bold">All Newspaper Articles</h2>
+        <p class="text-muted mb-0">Browse, filter, and manage agency content</p>
+    </div>
+
+    <!-- Search Form (Submits via GET) -->
+    <form method="get" action="" class="d-flex gap-2 min-w-md-300">
+        <div class="input-group shadow-sm">
+            <input
+                type="text"
+                name="title"
+                class="form-control"
+                placeholder="Search articles by title..."
+                value="{{ request.GET.title|default:'' }}"
+                aria-label="Search articles"
+            >
+            <button class="btn btn-primary" type="submit">🔍</button>
+            {% if request.GET.title %}
+                <a href="{% url 'newspaper:newspaper-list' %}" class="btn btn-outline-secondary d-flex align-items-center">Clear</a>
+            {% endif %}
+        </div>
+    </form>
+</div>
+
+<!-- Articles Grid Layout -->
+<div class="row row-cols-1 row-cols-md-2 g-4 mb-5">
+    {% for newspaper in newspaper_list %}
+    <div class="col">
+        <div class="card h-100 shadow-sm border-0 bg-white">
+            <div class="card-body">
+                <h5 class="card-title fw-bold text-dark text-truncate mb-1">{{ newspaper.title }}</h5>
+                <h6 class="card-subtitle mb-3 text-muted fs-7">Published: {{ newspaper.published_date|date:"M d, Y" }}</h6>
+                <p class="card-text text-muted text-truncate mb-3">{{ newspaper.content }}</p>
+
+                <!-- Topic Badges Loop -->
+                <div class="d-flex flex-wrap gap-1">
+                    {% for topic in newspaper.topics.all %}
+                    <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-2.5">{{ topic.name }}</span>
+                    {% empty %}
+                    <span class="badge bg-light text-muted border rounded-pill px-2.5">No Topic</span>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="card-footer bg-transparent border-0 pt-0 pb-3">
+                <a href="{% url 'newspaper:newspaper-detail' pk=newspaper.id %}" class="btn btn-sm btn-outline-primary w-100">Read Article</a>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="col-12">
+        <div class="alert alert-info text-center py-4 shadow-sm border-0">
+            <p class="mb-0 fw-semibold">No articles match your criteria.</p>
+            <a href="{% url 'newspaper:newspaper-list' %}" class="btn btn-sm btn-link mt-2 text-decoration-none">Reset all filters</a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<!-- Django-Bootstrap 5 Pagination Footer -->
+{% if is_paginated %}
+<nav aria-label="Page navigation" class="d-flex justify-content-center border-top pt-4">
+    <ul class="pagination pagination-md shadow-sm">
+
+        <!-- Previous Page Button -->
+        {% if page_obj.has_previous %}
+        <li class="page-item">
+            <a class="page-link link-primary" href="?page={{ page_obj.previous_page_number }}{% if request.GET.title %}&title={{ request.GET.title }}{% endif %}" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+            <span class="page-link">&laquo;</span>
+        </li>
+        {% endif %}
+
+        <!-- Numeric Page Map Loop -->
+        {% for num in page_obj.paginator.page_range %}
+            {% if page_obj.number == num %}
+            <li class="page-item active" aria-current="page">
+                <span class="page-link bg-primary border-primary">{{ num }}</span>
+            </li>
+            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+            <li class="page-item">
+                <a class="page-link link-dark" href="?page={{ num }}{% if request.GET.title %}&title={{ request.GET.title }}{% endif %}">{{ num }}</a>
+            </li>
+            {% endif %}
+        {% endfor %}
+
+        <!-- Next Page Button -->
+        {% if page_obj.has_next %}
+        <li class="page-item">
+            <a class="page-link link-primary" href="?page={{ page_obj.next_page_number }}{% if request.GET.title %}&title={{ request.GET.title }}{% endif %}" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+            <span class="page-link">&raquo;</span>
+        </li>
+        {% endif %}
+
+    </ul>
+</nav>
+{% endif %}
+{% endblock %}
