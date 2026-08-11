@@ -1,8 +1,15 @@
 # Newspaper Agency Management Platform
 
 A robust web application designed to streamline the operations of a newspaper editorial office. This platform allows administrators and chief editors to manage topics, track newspaper publications, and organize editorial staff efficiently.
+
 ## Link on render.com
+
 https://newspaper-agency-mate-1-y2al.onrender.com
+
+## Test Credentials
+
+- Login: user
+- Password: user12345
 
 ## 🚀 Features
 
