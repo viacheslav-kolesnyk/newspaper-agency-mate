@@ -7,11 +7,13 @@ class TopicAdmin(admin.ModelAdmin):
     list_display = ["id", "name"]
     search_fields = ["name"]
 
+
 @admin.register(Editor)
 class EditorAdmin(admin.ModelAdmin):
     list_display = ["id", "username", "first_name", "last_name", "years_of_experience"]
     list_filter = ["groups"]
     search_fields = ["username", "first_name", "last_name"]
+
 
 @admin.register(Newspaper)
 class NewspaperAdmin(admin.ModelAdmin):

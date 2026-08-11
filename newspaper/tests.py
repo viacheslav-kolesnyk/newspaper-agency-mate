@@ -3,7 +3,8 @@ from django.test import TestCase
 from django.urls import reverse
 
 from newspaper.models import Topic, Newspaper
-from newspaper.forms import EditorCreationForm, NewspaperForm
+from newspaper.forms import EditorCreationForm
+
 
 Editor = get_user_model()
 

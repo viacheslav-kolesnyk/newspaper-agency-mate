@@ -5,6 +5,7 @@ from newspaper.models import Topic, Newspaper, Editor
 # Get the custom user model safely for authentication forms
 User = get_user_model()
 
+
 class TopicForm(forms.ModelForm):
     class Meta:
         model = Topic
@@ -12,6 +13,7 @@ class TopicForm(forms.ModelForm):
         widgets = {
             "name": forms.TextInput(attrs={"class": "form-control", "placeholder": "Enter topic name"}),
         }
+
 
 class NewspaperForm(forms.ModelForm):
     class Meta:
@@ -25,6 +27,7 @@ class NewspaperForm(forms.ModelForm):
             "editor": forms.Select(attrs={"class": "form-select"}),
         }
 
+
 class EditorForm(forms.ModelForm):
     class Meta:
         model = Editor
@@ -34,6 +37,7 @@ class EditorForm(forms.ModelForm):
             "last_name": forms.TextInput(attrs={"class": "form-control"}),
             "email": forms.EmailInput(attrs={"class": "form-control"}),
         }
+
 
 class EditorCreationForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput(attrs={"class": "form-control"}))

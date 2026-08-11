@@ -55,6 +55,7 @@ class NewspaperListView(LoginRequiredMixin, generic.ListView):
     paginate_by = 5
     queryset = Newspaper.objects.select_related("editor").prefetch_related("topics")
 
+
 class NewspaperDetailView(LoginRequiredMixin, generic.DetailView):
     model = Newspaper
     template_name = "newspaper/newspaper_detail.html"
@@ -94,11 +95,13 @@ class EditorDetailView(LoginRequiredMixin, generic.DetailView):
     template_name = "newspaper/editor_detail.html"
     queryset = Editor.objects.prefetch_related("newspapers__topics")
 
+
 class EditorCreateView(LoginRequiredMixin, generic.CreateView):
     model = Editor
     form_class = EditorForm
     template_name = "newspaper/editor_form.html"
     success_url = reverse_lazy("newspaper:editor-list")
+
 
 class EditorUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Editor
